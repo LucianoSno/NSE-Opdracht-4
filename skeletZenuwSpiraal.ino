@@ -181,39 +181,41 @@ void setup()
 
 void loop()
 {
-  if (knop1Gedrukt() /* plus code voor reageren op startpunt */ ) {
+  /* plus code voor reageren op startpunt */ ) 
+  if (knop1Gedrukt() || startpunt()) && speeltijd == 0 ) { 
     LED1Aan();
     LED2Uit();
     LED3Uit();
-    // aftellen(); 
+    aftellen(); 
     toestand = STARTPUNT_GERAAKT;
   }
-
-  if (knop2Gedrukt() /* plus andere condities uit opdracht 3b */
-                     /* plus code voor reageren op draad      */ ) {
+/* plus andere condities uit opdracht 3b */
+/* plus code voor reageren op draad      */ 
+  if (knop2Gedrukt() || draad() )  {
     LED1Uit();
     LED2Aan();
     LED3Uit();
     toestand = DRAAD_GERAAKT;
   }
-
-  if (knop3Gedrukt() /* plus andere condities uit opdracht 3b */
-                     /* plus code voor reageren op eindpunt   */ ) {
+/* plus andere condities uit opdracht 3b */
+/* plus code voor reageren op eindpunt   */
+  if (knop3Gedrukt() || eindpunt()) && toestand != DRAAD_GERAAKT ) {
+    MFS.write(speeltijd, 2);
     LED1Uit();
     LED2Uit();
     LED3Aan();
     toestand = EINDPUNT_BEREIKT;
   }
 
-  if (false /* vervangen door andere conditie! */) {
-    updateTimer();
+  if (!knop2Gedrukt() && toestand == STARTPUNT_GERAAKT) { // Het spel is gestart en de draad is niet aangeraakt 
+    updateTimer(); // tijd tonen
   }
 
-  if (false /* vervangen door andere conditie! */) {
+  if (speeltijd > 0 && (knop1Gedrukt() || startpunt() )) { // Wanneer het spel voorbij is en er wordt weer op knop1 gedrukt
     resetTimer();
   }
 
-  if (false /* vervangen door andere conditie! */) {
+  if (knop2Gedrukt() || draad()) {
     zoemerAan();
   } else {
     zoemerUit();
